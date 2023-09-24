@@ -8,11 +8,11 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(XSHUT,GPIO.OUT)
 GPIO.output(XSHUT,GPIO.LOW)
 
-tof1 = VL53L1X.VL53L1X(i2c_bus=0, i2c_address=0x2B)
+tof1 = VL53L1X.VL53L1X(i2c_bus=0, i2c_address=0x29)
 tof1.open()
 #tof1.change_address(new_address = 0x2B)
 GPIO.setup(XSHUT,GPIO.IN)
-tof2 = VL53L1X.VL53L1X(i2c_bus=0, i2c_address=0x2B)
+tof2 = VL53L1X.VL53L1X(i2c_bus=0, i2c_address=0x29)
 tof2.open()
 # now tof1 has address 0x2B and tof2 has address 0x29
 
