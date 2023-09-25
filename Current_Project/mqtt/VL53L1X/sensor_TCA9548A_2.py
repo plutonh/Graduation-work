@@ -1,8 +1,3 @@
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-# This example shows using two TSL2491 light sensors attached to TCA9548A channels 0 and 1.
-# Use with other I2C sensors would be similar.
 import time
 import board
 import adafruit_vl53l1x
@@ -19,9 +14,9 @@ tca = adafruit_tca9548a.TCA9548A(i2c)
 vl53_1 = adafruit_vl53l1x.VL53L1X(tca[1])
 vl53_2 = adafruit_vl53l1x.VL53L1X(tca[2])
 
+# OPTIONAL: can set non-default values
 vl53_1.distance_mode = 1
 vl53_2.distance_mode = 1
-
 vl53_1.timing_budget = 33
 vl53_2.timing_budget = 33
 
