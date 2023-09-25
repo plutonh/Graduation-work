@@ -39,9 +39,9 @@ max_difference = 30
 threshold = 3
 
 # After initial setup, can just use sensors as normal.
-for i in range(1, 100):
-    print(vl53_1.distance, vl53_2.distance)
-    time.sleep(0.1)
+# for i in range(1, 100):
+#     print(vl53_1.distance, vl53_2.distance)
+#     time.sleep(0.1)
 
 def main():
     count_blocked_1 = 0
@@ -55,7 +55,7 @@ def main():
                 count_blocked_1 += 1
                 count_unblocked_1 = 0
                 if count_blocked_1 == threshold:
-                    sensor_client.publish("embed/control", "1 " + str(vl53_1.distance))
+                    sensor_client.publish("embed/control", "2 " + str(vl53_1.distance))
                     print("Send %s" % str(vl53_1.distance))
                     
             elif vl53_1.distance is not None and count_blocked_1 != 0:
