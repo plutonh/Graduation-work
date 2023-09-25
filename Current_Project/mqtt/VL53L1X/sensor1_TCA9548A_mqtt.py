@@ -10,7 +10,7 @@ def on_publish(client,userdata,result):             #create function for callbac
     print("data published \n")
     pass
 
-sensor_client= paho.Client("sensor0")                           #create client object
+sensor_client= paho.Client("sensor1")                           #create client object
 sensor_client.on_publish = on_publish                          #assign function to callback
 sensor_client.connect(broker)
 

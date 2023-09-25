@@ -46,6 +46,8 @@ def increase_people(mqtt_client):
         sensor_state[0] = 0
         sensor_state[2] = 0
 
+        print("increase")
+
 def decrease_people(mqtt_client):
     if sensor_state[1] != 0 and sensor_state[3] != 0:
         # The payload between two sensors is 20 cm 
@@ -62,7 +64,9 @@ def decrease_people(mqtt_client):
             handle_change(mqtt_client, -1)
 
         sensor_state[1] = 0
-        sensor_state[3] = 0    
+        sensor_state[3] = 0
+
+        print("decrease")  
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
@@ -76,6 +80,8 @@ def on_message(client, userdata, msg):
 
     publisher_id, data = msg.payload.decode("utf-8").split(' ')
     publisher_id = int(publisher_id)
+
+    print(publisher_id)
 
     if publisher_id == 0 or publisher_id == 2:
         if publisher_id == 0:
