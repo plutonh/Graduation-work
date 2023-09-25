@@ -1,6 +1,8 @@
 import paho.mqtt.client as paho
+import time
 
 available_people = 0
+guideline = 20
 sensor_state = [0, 0, 0, 0]
 
 ##FIXME: Do not close the gate when there is a person!!
@@ -26,23 +28,41 @@ def handle_change(mqtt_client, change):
     mqtt_client.publish('embed/web', str(available_people))
     print("send %d to the website" % available_people)
 
-def distinguish_people(mqtt_client):
-    if sensor_state[0] != 0 and sensor_state[1] != 0:
+def increase_people(mqtt_client):
+    if sensor_state[0] != 0 and sensor_state[2] != 0:
         # The payload between two sensors is 20 cm 
         # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
         # Let's conclude there are two people when the length > 12cm 
         # sensor_state[0] + sensor_state[1] < 8 cm
-        if sensor_state[0] + sensor_state[1] < 8:
+        if sensor_state[0] + sensor_state[2] < guideline:
             # Two people
-            print("Two people")
+            print("Two people IN")
+            handle_change(mqtt_client, +2)
+        else:
+            # One people
+            print("One people IN")
+            handle_change(mqtt_client, +1)
+
+        sensor_state[0] = 0
+        sensor_state[2] = 0
+
+def decrease_people(mqtt_client):
+    if sensor_state[1] != 0 and sensor_state[3] != 0:
+        # The payload between two sensors is 20 cm 
+        # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
+        # Let's conclude there are two people when the length > 12cm 
+        # sensor_state[0] + sensor_state[1] < 8 cm
+        if sensor_state[1] + sensor_state[3] < guideline:
+            # Two people
+            print("Two people OUT")
             handle_change(mqtt_client, -2)
         else:
             # One people
-            print("One people")
+            print("One people OUT")
             handle_change(mqtt_client, -1)
 
-        sensor_state[0] = 0
         sensor_state[1] = 0
+        sensor_state[3] = 0    
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
@@ -57,12 +77,26 @@ def on_message(client, userdata, msg):
     publisher_id, data = msg.payload.decode("utf-8").split(' ')
     publisher_id = int(publisher_id)
 
-    if publisher_id == 0 or publisher_id == 1:
-        data = float(data)
-        print("Receive %f from %d".format(data, publisher_id))
+    if publisher_id == 0 or publisher_id == 2:
+        if publisher_id == 0:
+            data_0 = float(data)
+            sensor_state[publisher_id] = data_0
+        else:
+            data_2 = float(data)
+            sensor_state[publisher_id] = data_2
+        increase_people(client)
+        time.sleep(0.5)
 
-        sensor_state[publisher_id] = data 
-        distinguish_people(client)
+    elif publisher_id == 1 or publisher_id == 3:
+        if publisher_id == 1:
+            data_1 = float(data)
+            sensor_state[publisher_id] = data_1
+        else:
+            data_3 = float(data)
+            sensor_state[publisher_id] = data_3
+        decrease_people(client)
+        time.sleep(0.5)
+    
     elif publisher_id == 4: # 2 -> 4 for additional sensors
         data = int(data)
         print("%s from the web" % data)
