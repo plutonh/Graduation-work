@@ -3,7 +3,13 @@ import time
 
 available_people = 0
 guideline = 20
+threshold = 1
 sensor_state = [0, 0, 0, 0]
+
+global input_lock
+global output_lock
+input_lock = 0
+output_lock = 0
 
 ##FIXME: Do not close the gate when there is a person!!
 
@@ -44,7 +50,9 @@ def increase_people(mqtt_client):
             handle_change(mqtt_client, +1)
 
         sensor_state[0] = 0
+        sensor_state[1] = 0
         sensor_state[2] = 0
+        sensor_state[3] = 0
 
         print("increase")
 
@@ -63,7 +71,9 @@ def decrease_people(mqtt_client):
             print("One people OUT")
             handle_change(mqtt_client, -1)
 
+        sensor_state[0] = 0
         sensor_state[1] = 0
+        sensor_state[2] = 0
         sensor_state[3] = 0
 
         print("decrease")  
@@ -76,7 +86,8 @@ def on_publish(client,userdata,result):             #create function for callbac
     pass
 
 def on_message(client, userdata, msg):
-    #print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload.decode("utf-8")))
+    global input_lock
+    global output_lock
 
     publisher_id, data = msg.payload.decode("utf-8").split(' ')
     publisher_id = int(publisher_id)
@@ -84,24 +95,34 @@ def on_message(client, userdata, msg):
     print(publisher_id)
 
     if publisher_id == 0 or publisher_id == 2:
-        if publisher_id == 0:
-            data_0 = float(data)
-            sensor_state[publisher_id] = data_0
+        if output_lock > 0:
+            output_lock -= 1
+            sensor_state[0] = 0
+            sensor_state[2] = 0
         else:
-            data_2 = float(data)
-            sensor_state[publisher_id] = data_2
-        increase_people(client)
-        time.sleep(0.5)
+            if publisher_id == 0:
+                data_0 = float(data)
+                sensor_state[publisher_id] = data_0
+            else:
+                data_2 = float(data)
+                sensor_state[publisher_id] = data_2
+            increase_people(client)
+            input_lock = threshold
 
     elif publisher_id == 1 or publisher_id == 3:
-        if publisher_id == 1:
-            data_1 = float(data)
-            sensor_state[publisher_id] = data_1
+        if input_lock > 0:
+            input_lock -= 1
+            sensor_state[1] = 0
+            sensor_state[3] = 0
         else:
-            data_3 = float(data)
-            sensor_state[publisher_id] = data_3
-        decrease_people(client)
-        time.sleep(0.5)
+            if publisher_id == 1:
+                data_1 = float(data)
+                sensor_state[publisher_id] = data_1
+            else:
+                data_3 = float(data)
+                sensor_state[publisher_id] = data_3
+            decrease_people(client)
+            output_lock = threshold
     
     elif publisher_id == 4: # 2 -> 4 for additional sensors
         data = int(data)
