@@ -69,7 +69,7 @@ def main():
             time.sleep(0.025)
 
         if vl53_2.data_ready:
-            if vl53_2.distance is not None and  vl53_1.distance < guideline:
+            if vl53_2.distance is not None and  vl53_2.distance < guideline:
                 count_blocked_2 += 1
                 count_unblocked_2 = 0
                 if count_blocked_2 == threshold:
