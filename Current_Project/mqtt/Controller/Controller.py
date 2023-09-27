@@ -2,7 +2,7 @@ import paho.mqtt.client as paho
 import time
 
 available_people = 0
-guideline = 20
+guideline = 80
 threshold = 1
 sensor_state = [0, 0, 0, 0]
 
@@ -42,11 +42,11 @@ def increase_people(mqtt_client):
     # sensor_state[0] + sensor_state[1] < 8 cm
     if sensor_state[0] + sensor_state[2] < guideline:
         # Two people
-        print("Two people IN")
+        print("Two person IN")
         handle_change(mqtt_client, 2)
     else:
         # One people
-        print("One people IN")
+        print("One person IN")
         handle_change(mqtt_client, 1)
 
     sensor_state[0] = 0
@@ -66,8 +66,8 @@ def decrease_people(mqtt_client):
         print("Two people OUT")
         handle_change(mqtt_client, -2)
     else:
-        # One people
-        print("One people OUT")
+        # One person
+        print("One person OUT")
         handle_change(mqtt_client, -1)
 
     sensor_state[0] = 0
