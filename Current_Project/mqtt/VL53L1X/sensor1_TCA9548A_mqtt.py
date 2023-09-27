@@ -16,7 +16,7 @@ def on_publish(client,userdata,result):             #create function for callbac
     print("data published \n")
     pass
 
-sensor_client= paho.Client("sensor0")                           #create client object
+sensor_client= paho.Client("sensor1")                           #create client object
 sensor_client.on_publish = on_publish                          #assign function to callback
 sensor_client.connect(broker)
 
@@ -58,15 +58,9 @@ def main():
             if vl53_1.distance is not None and vl53_1.distance < guideline:
                 count_blocked_1 += 1
 
-            vl53_1.clear_interrupt()
-            #time.sleep(0.001)
-
         if vl53_2.data_ready:
             if vl53_2.distance is not None and vl53_2.distance < guideline:
                 count_blocked_2 += 1
-
-            vl53_2.clear_interrupt()
-            #time.sleep(0.001)
 
         if (count_blocked_1 > count_blocked_2) and (count_blocked_1 > threshold): # Input
             sensor_client.publish("embed/control", "2 " + str(vl53_1.distance))
@@ -83,6 +77,10 @@ def main():
             count_blocked_1 = 0
             count_blocked_2 = 0
             time.sleep(0.5)
+
+        vl53_1.clear_interrupt()
+        vl53_2.clear_interrupt()
+        time.sleep(0.025)
 
 if (__name__ == '__main__'):
     main()
