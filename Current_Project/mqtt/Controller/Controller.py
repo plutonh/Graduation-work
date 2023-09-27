@@ -101,7 +101,7 @@ def on_message(client, userdata, msg):
             data_2 = float(data)
             sensor_state[publisher_id] = data_2
         
-        print("increase, ", sensor_state[0], " and ", sensor_state[2])
+        #  print("increase, ", sensor_state[0], " and ", sensor_state[2])
         if sensor_state[0] != 0 and sensor_state[2] != 0:
             increase_people(client)
 
@@ -113,7 +113,7 @@ def on_message(client, userdata, msg):
             data_3 = float(data)
             sensor_state[publisher_id] = data_3
 
-        print("decrease, ", sensor_state[1], " and ", sensor_state[3])
+        # print("decrease, ", sensor_state[1], " and ", sensor_state[3])
         if sensor_state[1] != 0 and sensor_state[3] != 0:
             decrease_people(client)
     
