@@ -32,17 +32,23 @@ vl53_1 = adafruit_vl53l1x.VL53L1X(tca[1])
 vl53_2 = adafruit_vl53l1x.VL53L1X(tca[2])
 
 # OPTIONAL: can set non-default values
-vl53_1.distance_mode = 1
-vl53_2.distance_mode = 1
+vl53_1.distance_mode = 2
+vl53_2.distance_mode = 2
 vl53_1.timing_budget = 33
 vl53_2.timing_budget = 33
 
 vl53_1.start_ranging()
 vl53_2.start_ranging()
 
-guideline = 15
+# Real: width between two sensors: 140cm, width of two people: 90cm
+guideline = 120
 max_difference = 30
 threshold = 1
+
+# Demo
+# guideline = 15
+# max_difference = 30
+# threshold = 1
 
 # After initial setup, can just use sensors as normal.
 # for i in range(1, 100):
