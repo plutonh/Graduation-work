@@ -73,12 +73,14 @@ def main():
             print("Send %s" % str(vl53_1.distance))
             print("2, ", count_blocked_1)
             count_blocked_1 = 0
+            count_blocked_2 = 0
             time.sleep(0.5)
 
         elif (count_blocked_2 > count_blocked_1) and (count_blocked_2 > threshold): # Output
             sensor_client.publish("embed/control", "3 " + str(vl53_2.distance))
             print("Send %s" % str(vl53_2.distance))
             print("3, ", count_blocked_2)
+            count_blocked_1 = 0
             count_blocked_2 = 0
             time.sleep(0.5)
 
