@@ -95,7 +95,7 @@ def on_message(client, userdata, msg):
 
     print(publisher_id)
 
-    if publisher_id == 0 or publisher_id == 2:
+    if publisher_id == 0 or publisher_id == 2: # Input
         if publisher_id == 0:
             data_0 = float(data)
             sensor_state[publisher_id] = data_0
@@ -104,7 +104,7 @@ def on_message(client, userdata, msg):
             sensor_state[publisher_id] = data_2
         increase_people(client)
 
-    elif publisher_id == 1 or publisher_id == 3:
+    elif publisher_id == 1 or publisher_id == 3: # Output
         if publisher_id == 1:
             data_1 = float(data)
             sensor_state[publisher_id] = data_1
