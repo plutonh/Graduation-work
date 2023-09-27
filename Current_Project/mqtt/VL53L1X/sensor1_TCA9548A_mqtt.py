@@ -42,7 +42,7 @@ vl53_2.start_ranging()
 
 guideline = 15
 max_difference = 30
-threshold = 3
+threshold = 1
 
 # After initial setup, can just use sensors as normal.
 # for i in range(1, 100):
