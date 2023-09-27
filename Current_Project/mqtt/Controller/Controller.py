@@ -36,48 +36,46 @@ def handle_change(mqtt_client, change):
     print("send %d to the website" % available_people)
 
 def increase_people(mqtt_client):
-    if sensor_state[0] != 0 and sensor_state[2] != 0:
-        # The payload between two sensors is 20 cm 
-        # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
-        # Let's conclude there are two people when the length > 12cm 
-        # sensor_state[0] + sensor_state[1] < 8 cm
-        if sensor_state[0] + sensor_state[2] < guideline:
-            # Two people
-            print("Two people IN")
-            handle_change(mqtt_client, +2)
-        else:
-            # One people
-            print("One people IN")
-            handle_change(mqtt_client, +1)
+    # The payload between two sensors is 20 cm 
+    # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
+    # Let's conclude there are two people when the length > 12cm 
+    # sensor_state[0] + sensor_state[1] < 8 cm
+    if sensor_state[0] + sensor_state[2] < guideline:
+        # Two people
+        print("Two people IN")
+        handle_change(mqtt_client, 2)
+    else:
+        # One people
+        print("One people IN")
+        handle_change(mqtt_client, 1)
 
-        sensor_state[0] = 0
-        sensor_state[1] = 0
-        sensor_state[2] = 0
-        sensor_state[3] = 0
+    sensor_state[0] = 0
+    sensor_state[1] = 0
+    sensor_state[2] = 0
+    sensor_state[3] = 0
 
-        print("increase")
+    print("increase")
 
 def decrease_people(mqtt_client):
-    if sensor_state[1] != 0 and sensor_state[3] != 0:
-        # The payload between two sensors is 20 cm 
-        # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
-        # Let's conclude there are two people when the length > 12cm 
-        # sensor_state[0] + sensor_state[1] < 8 cm
-        if sensor_state[1] + sensor_state[3] < guideline:
-            # Two people
-            print("Two people OUT")
-            handle_change(mqtt_client, -2)
-        else:
-            # One people
-            print("One people OUT")
-            handle_change(mqtt_client, -1)
+    # The payload between two sensors is 20 cm 
+    # The detected length = 20 cm - sensor_state[0] - sensor_state[1]
+    # Let's conclude there are two people when the length > 12cm 
+    # sensor_state[0] + sensor_state[1] < 8 cm
+    if sensor_state[1] + sensor_state[3] < guideline:
+        # Two people
+        print("Two people OUT")
+        handle_change(mqtt_client, -2)
+    else:
+        # One people
+        print("One people OUT")
+        handle_change(mqtt_client, -1)
 
-        sensor_state[0] = 0
-        sensor_state[1] = 0
-        sensor_state[2] = 0
-        sensor_state[3] = 0
+    sensor_state[0] = 0
+    sensor_state[1] = 0
+    sensor_state[2] = 0
+    sensor_state[3] = 0
 
-        print("decrease")  
+    print("decrease")  
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("Subscribed: "+str(mid)+" "+str(granted_qos))
@@ -102,7 +100,10 @@ def on_message(client, userdata, msg):
         else:
             data_2 = float(data)
             sensor_state[publisher_id] = data_2
-        increase_people(client)
+        
+        print("increase, ", sensor_state[0], " and ", sensor_state[2])
+        if sensor_state[0] != 0 and sensor_state[2] != 0:
+            increase_people(client)
 
     elif publisher_id == 1 or publisher_id == 3: # Output
         if publisher_id == 1:
@@ -111,7 +112,10 @@ def on_message(client, userdata, msg):
         else:
             data_3 = float(data)
             sensor_state[publisher_id] = data_3
-        decrease_people(client)
+
+        print("decrease, ", sensor_state[1], " and ", sensor_state[3])
+        if sensor_state[1] != 0 and sensor_state[3] != 0:
+            decrease_people(client)
     
     elif publisher_id == 4: # 2 -> 4 for additional sensors
         data = int(data)
