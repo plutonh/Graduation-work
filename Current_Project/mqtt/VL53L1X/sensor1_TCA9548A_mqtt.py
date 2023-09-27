@@ -32,8 +32,8 @@ vl53_1 = adafruit_vl53l1x.VL53L1X(tca[1])
 vl53_2 = adafruit_vl53l1x.VL53L1X(tca[2])
 
 # OPTIONAL: can set non-default values
-vl53_1.distance_mode = 2
-vl53_2.distance_mode = 2
+vl53_1.distance_mode = 3
+vl53_2.distance_mode = 3
 vl53_1.timing_budget = 33
 vl53_2.timing_budget = 33
 
