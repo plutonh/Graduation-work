@@ -80,7 +80,7 @@ def main():
             print("1, ", count_blocked_2)
             count_blocked_2 = 0
         
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
 if (__name__ == '__main__'):
     main()
