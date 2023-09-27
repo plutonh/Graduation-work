@@ -40,8 +40,8 @@ vl53_2.timing_budget = 33
 vl53_1.start_ranging()
 vl53_2.start_ranging()
 
-# Real: width between two sensors: 140cm, width of two people: 90cm
-guideline = 120
+# Real: width between two sensors: 120cm, width of two people: 90cm
+guideline = 90
 max_difference = 30
 threshold = 1
 
