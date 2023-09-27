@@ -42,7 +42,7 @@ vl53_2.start_ranging()
 
 guideline = 15
 max_difference = 30
-threshold = 1
+threshold = 3
 
 # After initial setup, can just use sensors as normal.
 # for i in range(1, 100):
@@ -74,7 +74,7 @@ def main():
             print("2, ", count_blocked_1)
             count_blocked_1 = 0
             count_blocked_2 = 0
-            time.sleep(0.3)
+            time.sleep(0.5)
 
         elif (count_blocked_2 > count_blocked_1) and (count_blocked_2 > threshold): # Output
             sensor_client.publish("embed/control", "3 " + str(vl53_2.distance))
@@ -82,7 +82,7 @@ def main():
             print("3, ", count_blocked_2)
             count_blocked_1 = 0
             count_blocked_2 = 0
-            time.sleep(0.3)
+            time.sleep(0.5)
 
 if (__name__ == '__main__'):
     main()
