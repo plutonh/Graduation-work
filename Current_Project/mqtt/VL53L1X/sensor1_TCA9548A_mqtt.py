@@ -41,7 +41,7 @@ vl53_1.start_ranging()
 vl53_2.start_ranging()
 
 # Real: width between two sensors: 120cm, width of two people: 90cm
-guideline = 90
+guideline = 80
 max_difference = 30
 threshold = 1
 
