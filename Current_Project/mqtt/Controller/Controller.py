@@ -102,7 +102,7 @@ def on_message(client, userdata, msg):
             sensor_state[publisher_id] = data_2
         
         #  print("increase, ", sensor_state[0], " and ", sensor_state[2])
-        if sensor_state[0] != 0 and sensor_state[2] != 0:
+        if sensor_state[0] != 0 or sensor_state[2] != 0:
             increase_people(client)
 
     elif publisher_id == 1 or publisher_id == 3: # Output
@@ -114,7 +114,7 @@ def on_message(client, userdata, msg):
             sensor_state[publisher_id] = data_3
 
         # print("decrease, ", sensor_state[1], " and ", sensor_state[3])
-        if sensor_state[1] != 0 and sensor_state[3] != 0:
+        if sensor_state[1] != 0 or sensor_state[3] != 0:
             decrease_people(client)
     
     elif publisher_id == 4: # 2 -> 4 for additional sensors
