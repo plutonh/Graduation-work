@@ -2,7 +2,7 @@ import paho.mqtt.client as paho
 import time
 
 available_people = 0
-guideline = 70
+guideline = 50
 threshold = 1
 sensor_state = [0, 0, 0, 0]
 
