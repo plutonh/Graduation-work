@@ -37,6 +37,7 @@ const server = http.createServer(options, (req, res) => {
 		<body>
 			<h1>
 				<center>
+				<p> Access control system </p>
 				<p, id = "content"> 0 </p>
 				</center>
                 <center><button onclick="contactServer(0)">+</button>
