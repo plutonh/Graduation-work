@@ -1,7 +1,7 @@
 ---
 Title: Graduation work
 Author: Jonghyeon Nam
-Project name: A Study on the Development and Application of Low Power, Multipurpose Access Detection System Using Multiple Sensors with Real-Time Check
+Project name: Development of a low-power, multi-purpose access detection system using multiple sensors capable of real-time verification
 ---
 
 # Hardware
