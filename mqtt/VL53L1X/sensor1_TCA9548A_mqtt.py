@@ -34,8 +34,8 @@ vl53_2 = adafruit_vl53l1x.VL53L1X(tca[2])
 # OPTIONAL: can set non-default values
 vl53_1.distance_mode = 2
 vl53_2.distance_mode = 2
-vl53_1.timing_budget = 100
-vl53_2.timing_budget = 100
+vl53_1.timing_budget = 33
+vl53_2.timing_budget = 33
 
 vl53_1.start_ranging()
 vl53_2.start_ranging()
@@ -43,7 +43,7 @@ vl53_2.start_ranging()
 # Real: width between two sensors: 110cm, width of two people: 90cm
 guideline = 70
 max_difference = 30
-threshold = 1
+threshold = 3
 
 # Demo
 # guideline = 15
@@ -74,7 +74,7 @@ def main():
             print("2, ", count_blocked_1)
             count_blocked_1 = 0
             count_blocked_2 = 0
-            time.sleep(0.7)
+            time.sleep(0.3)
 
         elif (count_blocked_2 > count_blocked_1) and (count_blocked_2 > threshold): # Output
             sensor_client.publish("embed/control", "3 " + str(vl53_2.distance))
@@ -82,7 +82,7 @@ def main():
             print("3, ", count_blocked_2)
             count_blocked_1 = 0
             count_blocked_2 = 0
-            time.sleep(0.7)
+            time.sleep(0.3)
 
         vl53_1.clear_interrupt()
         vl53_2.clear_interrupt()
