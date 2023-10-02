@@ -53,7 +53,7 @@ def on_message(client, userdata, msg):
                 StepAccum = 0
                 break
             else:
-                time.sleep(0.002)
+                time.sleep(0.004)
     else:
         while 1:
             for pin in range(0, 4):
@@ -75,7 +75,7 @@ def on_message(client, userdata, msg):
                 StepAccum = 0
                 break
             else:
-                time.sleep(0.002)
+                time.sleep(0.004)
 
 client = paho.Client()
 client.on_subscribe = on_subscribe
