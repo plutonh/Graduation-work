@@ -50,11 +50,6 @@ threshold = 1
 # max_difference = 30
 # threshold = 1
 
-# After initial setup, can just use sensors as normal.
-# for i in range(1, 100):
-#     print(vl53_1.distance, vl53_2.distance)
-#     time.sleep(0.1)
-
 def main():
     count_blocked_1 = 0
     count_blocked_2 = 0
