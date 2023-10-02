@@ -68,7 +68,7 @@ def main():
             if vl53_2.distance is not None and vl53_2.distance < guideline:
                 count_blocked_2 += 1
 
-        if (count_blocked_1 > count_blocked_2) and (count_blocked_1 > threshold): # Input
+        if (count_blocked_1 > threshold): # Input
             sensor_client.publish("embed/control", "2 " + str(vl53_1.distance))
             print("Send %s" % str(vl53_1.distance))
             print("2, ", count_blocked_1)
@@ -76,7 +76,7 @@ def main():
             count_blocked_2 = 0
             time.sleep(0.3)
 
-        elif (count_blocked_2 > count_blocked_1) and (count_blocked_2 > threshold): # Output
+        elif (count_blocked_2 > threshold): # Output
             sensor_client.publish("embed/control", "3 " + str(vl53_2.distance))
             print("Send %s" % str(vl53_2.distance))
             print("3, ", count_blocked_2)
