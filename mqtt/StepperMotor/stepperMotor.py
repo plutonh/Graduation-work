@@ -11,7 +11,7 @@ for pin in StepPins:
   GPIO.output(pin,False)
 
 StepCount = 4
-TargetAngle = 700
+TargetAngle = 789
 
 Seq_1 = [[1,0,0,0],
          [0,1,0,0],
