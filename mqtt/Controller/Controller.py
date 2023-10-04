@@ -6,6 +6,12 @@ guideline = 50
 threshold = 1
 sensor_state = [0, 0, 0, 0]
 
+global input_count
+global output_count
+
+input_count = 0
+output_count = 0
+
 ##FIXME: Do not close the gate when there is a person!!
 
 def handle_change(mqtt_client, change):
@@ -34,7 +40,7 @@ def increase_people(mqtt_client):
     # Let's conclude there are two people when the length > 12cm 
     # sensor_state[0] + sensor_state[1] < 8 cm
     if sensor_state[0] + sensor_state[2] < guideline:
-        print("Two person IN")
+        print("Two people IN")
         handle_change(mqtt_client, 2)
     else:
         print("One person IN")
@@ -70,8 +76,8 @@ def on_publish(client,userdata,result): #create function for callback
     pass
 
 def on_message(client, userdata, msg):
-    global input_lock
-    global output_lock
+    global input_count
+    global output_count
 
     publisher_id, data = msg.payload.decode("utf-8").split(' ')
     publisher_id = int(publisher_id)
@@ -88,6 +94,7 @@ def on_message(client, userdata, msg):
         
         if sensor_state[0] != 0 and sensor_state[2] != 0:
             increase_people(client)
+
         else:
             sensor_state[1] = 0
             sensor_state[3] = 0
